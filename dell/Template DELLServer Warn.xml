@@ -1,0 +1,652 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<zabbix_export>
+    <version>4.4</version>
+    <date>2020-04-29T03:15:26Z</date>
+    <groups>
+        <group>
+            <name>Templates</name>
+        </group>
+    </groups>
+    <templates>
+        <template>
+            <template>Template DELLServer Warn</template>
+            <name>Template DELLServer Warn</name>
+            <description>get the hardware status of the dell servers</description>
+            <groups>
+                <group>
+                    <name>Templates</name>
+                </group>
+            </groups>
+            <applications>
+                <application>
+                    <name>cpu</name>
+                </application>
+                <application>
+                    <name>fan</name>
+                </application>
+                <application>
+                    <name>memory</name>
+                </application>
+                <application>
+                    <name>network</name>
+                </application>
+                <application>
+                    <name>pci</name>
+                </application>
+                <application>
+                    <name>power</name>
+                </application>
+                <application>
+                    <name>storage</name>
+                </application>
+                <application>
+                    <name>system</name>
+                </application>
+                <application>
+                    <name>thermal</name>
+                </application>
+            </applications>
+            <items>
+                <item>
+                    <name>CPU Status</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.4.200.10.1.50.1</snmp_oid>
+                    <key>CPUStatus</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>cpu</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>DELLHealthStatusMapping</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(0)}&gt;3</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(0)}&lt;=3</recovery_expression>
+                            <name>CPU Warning</name>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Server  Power Off</name>
+                                    <expression>{Template DELLServer Warn:PowerState.last(0)}=3</expression>
+                                    <recovery_expression>{Template DELLServer Warn:PowerState.last(0)}&lt;3 or {Template DELLServer Warn:PowerState.last(0)}=4</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Disk Status</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.2.3.0</snmp_oid>
+                    <key>DiskStatus</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>storage</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>DELLHealthStatusMapping</name>
+                    </valuemap>
+                </item>
+                <item>
+                    <name>Fan Status</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.4.200.10.1.21.1</snmp_oid>
+                    <key>FanStatus</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>fan</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>DELLHealthStatusMapping</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(0)}&gt;3</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(0)}&lt;=3</recovery_expression>
+                            <name>Fan Warning</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Server  Power Off</name>
+                                    <expression>{Template DELLServer Warn:PowerState.last(0)}=3</expression>
+                                    <recovery_expression>{Template DELLServer Warn:PowerState.last(0)}&lt;3 or {Template DELLServer Warn:PowerState.last(0)}=4</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Global Status</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.2.1.0</snmp_oid>
+                    <key>GlobalStatus</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>system</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>DELLHealthStatusMapping</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(0)}&gt;3</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(0)}&lt;=3</recovery_expression>
+                            <name>GlobalStatus Warning</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Server  Power Off</name>
+                                    <expression>{Template DELLServer Warn:PowerState.last(0)}=3</expression>
+                                    <recovery_expression>{Template DELLServer Warn:PowerState.last(0)}&lt;3 or {Template DELLServer Warn:PowerState.last(0)}=4</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Template ICMP Ping: ICMP ping</name>
+                    <type>SIMPLE</type>
+                    <key>icmpping</key>
+                    <delay>60s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>system</name>
+                        </application>
+                    </applications>
+                    <triggers>
+                        <trigger>
+                            <expression>{max(3)}=0</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{max(1)}&gt;0</recovery_expression>
+                            <name>{HOST.NAME} ping not reachable</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Machine Serial</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.1.3.12.0</snmp_oid>
+                    <key>MachineSerial</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <port>{$SNMP_PORT}</port>
+                    <applications>
+                        <application>
+                            <name>system</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Machine Serialnumber</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.2.1.1.11.0</snmp_oid>
+                    <key>MachineSerialnumber</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>0</trends>
+                    <value_type>CHAR</value_type>
+                    <port>{$SNMP_PORT}</port>
+                    <applications>
+                        <application>
+                            <name>system</name>
+                        </application>
+                    </applications>
+                </item>
+                <item>
+                    <name>Memory Status</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.4.200.10.1.27.1</snmp_oid>
+                    <key>MemoryStatus</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>memory</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>DELLHealthStatusMapping</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(0)}&gt;3</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(0)}&lt;=3</recovery_expression>
+                            <name>MemoryStatus Warning</name>
+                            <priority>HIGH</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Server  Power Off</name>
+                                    <expression>{Template DELLServer Warn:PowerState.last(0)}=3</expression>
+                                    <recovery_expression>{Template DELLServer Warn:PowerState.last(0)}&lt;3 or {Template DELLServer Warn:PowerState.last(0)}=4</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Power State</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.2.4.0</snmp_oid>
+                    <key>PowerState</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>system</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>DELLPowerState</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(0)}=3</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(0)}&lt;3 or {last(0)}=4</recovery_expression>
+                            <name>Server  Power Off</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Power Status</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.4.200.10.1.9.1</snmp_oid>
+                    <key>PowerStatus</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>power</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>DELLPowerStatus</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(0)}&gt;3</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(0)}&lt;=3</recovery_expression>
+                            <name>PowerStatus Warning</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Server  Power Off</name>
+                                    <expression>{Template DELLServer Warn:PowerState.last(0)}=3</expression>
+                                    <recovery_expression>{Template DELLServer Warn:PowerState.last(0)}&lt;3 or {Template DELLServer Warn:PowerState.last(0)}=4</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Temperature Status</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.4.200.10.1.63.1</snmp_oid>
+                    <key>TemperatureStatus</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>thermal</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>DELLHealthStatusMapping</name>
+                    </valuemap>
+                    <triggers>
+                        <trigger>
+                            <expression>{last(0)}&gt;3</expression>
+                            <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                            <recovery_expression>{last(0)}&lt;=3</recovery_expression>
+                            <name>TemperatureStatus Warning</name>
+                            <priority>WARNING</priority>
+                            <manual_close>YES</manual_close>
+                            <dependencies>
+                                <dependency>
+                                    <name>Server  Power Off</name>
+                                    <expression>{Template DELLServer Warn:PowerState.last(0)}=3</expression>
+                                    <recovery_expression>{Template DELLServer Warn:PowerState.last(0)}&lt;3 or {Template DELLServer Warn:PowerState.last(0)}=4</recovery_expression>
+                                </dependency>
+                            </dependencies>
+                        </trigger>
+                    </triggers>
+                </item>
+                <item>
+                    <name>Voltage Status</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>.1.3.6.1.4.1.674.10892.5.4.200.10.1.12.1</snmp_oid>
+                    <key>VoltageStatus</key>
+                    <delay>300s</delay>
+                    <history>30d</history>
+                    <trends>30d</trends>
+                    <applications>
+                        <application>
+                            <name>power</name>
+                        </application>
+                    </applications>
+                    <valuemap>
+                        <name>DELLHealthStatusMapping</name>
+                    </valuemap>
+                </item>
+            </items>
+            <discovery_rules>
+                <discovery_rule>
+                    <name>Network Enumeration</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.4.1.674.10892.5.4.1100.90.1.2]</snmp_oid>
+                    <key>NetworkEnum</key>
+                    <delay>300s</delay>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>NIC {#SNMPINDEX} : Status</name>
+                            <type>SNMPV2</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <snmp_oid>1.3.6.1.4.1.674.10892.5.4.1100.90.1.3.{#SNMPINDEX}</snmp_oid>
+                            <key>NetStatus.[{#SNMPINDEX}]</key>
+                            <delay>300s</delay>
+                            <history>30d</history>
+                            <trends>30d</trends>
+                            <applications>
+                                <application>
+                                    <name>network</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;3</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>{last()}&lt;=3</recovery_expression>
+                                    <name>Nic [{#SNMPVALUE}] Warning</name>
+                                    <priority>WARNING</priority>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Server  Power Off</name>
+                                            <expression>{Template DELLServer Warn:PowerState.last(0)}=3</expression>
+                                            <recovery_expression>{Template DELLServer Warn:PowerState.last(0)}&lt;3 or {Template DELLServer Warn:PowerState.last(0)}=4</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>RAIDControllerBattery Enumeration</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.4.1.674.10892.5.5.1.20.130.15.1.1]</snmp_oid>
+                    <key>RAIDControllerBatteryEnum</key>
+                    <delay>300s</delay>
+                    <port>{$SNMP_PORT}</port>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>RAIDControllerBattery {#SNMPINDEX} : State</name>
+                            <type>SNMPV2</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <snmp_oid>1.3.6.1.4.1.674.10892.5.5.1.20.130.15.1.4.{#SNMPINDEX}</snmp_oid>
+                            <key>RAIDControllerBatteryState.[{#SNMPINDEX}]</key>
+                            <delay>300s</delay>
+                            <history>30d</history>
+                            <trends>30d</trends>
+                            <port>{$SNMP_PORT}</port>
+                            <applications>
+                                <application>
+                                    <name>storage</name>
+                                </application>
+                            </applications>
+                            <valuemap>
+                                <name>DELLArrayControllerBatteryState</name>
+                            </valuemap>
+                        </item_prototype>
+                        <item_prototype>
+                            <name>RAIDControllerBattery {#SNMPINDEX} : Status</name>
+                            <type>SNMPV2</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <snmp_oid>1.3.6.1.4.1.674.10892.5.5.1.20.130.15.1.6.{#SNMPINDEX}</snmp_oid>
+                            <key>RAIDControllerBatteryStatus.[{#SNMPINDEX}]</key>
+                            <delay>300s</delay>
+                            <history>30d</history>
+                            <trends>30d</trends>
+                            <port>{$SNMP_PORT}</port>
+                            <applications>
+                                <application>
+                                    <name>storage</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;3</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>{last()}&lt;=3</recovery_expression>
+                                    <name>RAIDControllerBattery {#SNMPINDEX}  Warning</name>
+                                    <priority>WARNING</priority>
+                                    <manual_close>YES</manual_close>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Server  Power Off</name>
+                                            <expression>{Template DELLServer Warn:PowerState.last(0)}=3</expression>
+                                            <recovery_expression>{Template DELLServer Warn:PowerState.last(0)}&lt;3 or {Template DELLServer Warn:PowerState.last(0)}=4</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+                <discovery_rule>
+                    <name>RAIDController Enumeration</name>
+                    <type>SNMPV2</type>
+                    <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                    <snmp_oid>discovery[{#SNMPVALUE},1.3.6.1.4.1.674.10892.5.5.1.20.130.1.1.1]</snmp_oid>
+                    <key>RAIDControllerEnumeration</key>
+                    <delay>300s</delay>
+                    <port>{$SNMP_PORT}</port>
+                    <item_prototypes>
+                        <item_prototype>
+                            <name>RAIDController {#SNMPINDEX} : Status</name>
+                            <type>SNMPV2</type>
+                            <snmp_community>{$SNMP_COMMUNITY}</snmp_community>
+                            <snmp_oid>1.3.6.1.4.1.674.10892.5.5.1.20.130.1.1.37.{#SNMPINDEX}</snmp_oid>
+                            <key>RAIDControllerStatus.[{#SNMPINDEX}]</key>
+                            <delay>300s</delay>
+                            <history>30d</history>
+                            <trends>30d</trends>
+                            <port>{$SNMP_PORT}</port>
+                            <applications>
+                                <application>
+                                    <name>storage</name>
+                                </application>
+                            </applications>
+                            <trigger_prototypes>
+                                <trigger_prototype>
+                                    <expression>{last()}&gt;3</expression>
+                                    <recovery_mode>RECOVERY_EXPRESSION</recovery_mode>
+                                    <recovery_expression>{last()}&lt;=3</recovery_expression>
+                                    <name>RAIDController {#SNMPINDEX}  Warning</name>
+                                    <priority>WARNING</priority>
+                                    <manual_close>YES</manual_close>
+                                    <dependencies>
+                                        <dependency>
+                                            <name>Server  Power Off</name>
+                                            <expression>{Template DELLServer Warn:PowerState.last(0)}=3</expression>
+                                            <recovery_expression>{Template DELLServer Warn:PowerState.last(0)}&lt;3 or {Template DELLServer Warn:PowerState.last(0)}=4</recovery_expression>
+                                        </dependency>
+                                    </dependencies>
+                                </trigger_prototype>
+                            </trigger_prototypes>
+                        </item_prototype>
+                    </item_prototypes>
+                </discovery_rule>
+            </discovery_rules>
+        </template>
+    </templates>
+    <value_maps>
+        <value_map>
+            <name>DELLArrayControllerBatteryState</name>
+            <mappings>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>ready</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>failed</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>degrated</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>missing</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>charging</newvalue>
+                </mapping>
+                <mapping>
+                    <value>7</value>
+                    <newvalue>below threshold</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>DELLHealthStatusMapping</name>
+            <mappings>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>other</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>ok</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>non-critical</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>critical</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>non-recoverable</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>DELLPowerState</name>
+            <mappings>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>other</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>off</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>on</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+        <value_map>
+            <name>DELLPowerStatus</name>
+            <mappings>
+                <mapping>
+                    <value>1</value>
+                    <newvalue>other</newvalue>
+                </mapping>
+                <mapping>
+                    <value>2</value>
+                    <newvalue>unknown</newvalue>
+                </mapping>
+                <mapping>
+                    <value>3</value>
+                    <newvalue>full</newvalue>
+                </mapping>
+                <mapping>
+                    <value>4</value>
+                    <newvalue>degraded</newvalue>
+                </mapping>
+                <mapping>
+                    <value>5</value>
+                    <newvalue>lost</newvalue>
+                </mapping>
+                <mapping>
+                    <value>6</value>
+                    <newvalue>notredundant</newvalue>
+                </mapping>
+                <mapping>
+                    <value>7</value>
+                    <newvalue>redundancy offline</newvalue>
+                </mapping>
+            </mappings>
+        </value_map>
+    </value_maps>
+</zabbix_export>
